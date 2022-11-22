@@ -83,6 +83,32 @@ def main(args):
 
     # Build model and criterion
     model = task.build_model(args)
+
+    # MEGA nffn from XFM fc
+    if getattr(args, "transfer_mega_nffn_frm_xfm_fc", None) is not None:
+        xfm_state = checkpoint_utils.load_checkpoint_to_cpu(args.transfer_mega_nffn_frm_xfm_fc)
+        xfm_ff_params = []
+        mega_ff_params = []
+        for n in xfm_state['model']:
+            if 'fc1' in n or 'fc2' in n:
+                xfm_ff_params.append(n)
+        for n, _ in model.named_parameters():
+            if 'nffn.fc1' in n or 'nffn.fc2' in n:
+                mega_ff_params.append(n)
+        assert len(xfm_ff_params) == len(mega_ff_params)
+
+        with torch.no_grad():
+            for name, param in model.named_parameters():
+                if 'nffn.fc1' in name or 'nffn.fc2' in name:
+                    param.copy_(xfm_state['model'][name.replace('nffn.', '')])
+            logger.info(f'loaded feed forward layers for the MEGA model from those of the Transformer model '
+                        f'at {args.transfer_mega_nffn_frm_xfm_fc}')
+    if args.freeze_trnsfrd_ffns:
+        for name, param in model.named_parameters():
+            if 'nffn.fc1' in name or 'nffn.fc2' in name:
+                param.requires_grad = False
+                logger.info(f'froze parameter {name}')
+
     criterion = task.build_criterion(args)
     logger.info(model)
     logger.info("task: {} ({})".format(args.task, task.__class__.__name__))

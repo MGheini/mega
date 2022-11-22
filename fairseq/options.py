@@ -26,6 +26,7 @@ def get_training_parser(default_task="translation"):
     add_model_args(parser)
     add_optimization_args(parser)
     add_checkpoint_args(parser)
+    add_init_mega_frm_xfm_args(parser)
     return parser
 
 
@@ -687,5 +688,15 @@ def add_model_args(parser):
     group.add_argument('--arch', '-a', metavar='ARCH',
                        choices=ARCH_MODEL_REGISTRY.keys(),
                        help='model architecture')
+    # fmt: on
+    return group
+
+
+def add_init_mega_frm_xfm_args(parser):
+    group = parser.add_argument_group("Experiments with Initializing (untrained) MEGA nffn from (trained) XFM fc")
+    # fmt: off
+    group.add_argument('--transfer-mega-nffn-frm-xfm-fc', default=None, type=str,
+                       help='Transformer checkpoint to load ff layers from')
+    group.add_argument('--freeze-trnsfrd-ffns', action='store_true', help="freeze MEGA's ffn after loading from a XFM")
     # fmt: on
     return group
