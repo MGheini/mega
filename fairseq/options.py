@@ -696,7 +696,8 @@ def add_init_mega_frm_xfm_args(parser):
     group = parser.add_argument_group("Experiments with Initializing (untrained) MEGA nffn from (trained) XFM fc")
     # fmt: off
     group.add_argument('--transfer-mega-nffn-frm-xfm-fc', default=None, type=str,
-                       help='Transformer checkpoint to load ff layers from')
-    group.add_argument('--freeze-trnsfrd-ffns', action='store_true', help="freeze MEGA's ffn after loading from a XFM")
+                       help='Transformer checkpoint to load ff layers and embeddings from')
+    group.add_argument('--freeze-trnsfrd-ffns', action='store_true', help="freeze MEGA's ffn and embeddings "
+                                                                          "after loading from a XFM")
     # fmt: on
     return group

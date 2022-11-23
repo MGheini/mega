@@ -101,11 +101,13 @@ def main(args):
             for name, param in model.named_parameters():
                 if 'nffn.fc1' in name or 'nffn.fc2' in name:
                     param.copy_(xfm_state['model'][name.replace('nffn.', '')])
+                elif 'embed_tokens' in name:
+                    param.copy_(xfm_state['model'][name])
             logger.info(f'loaded feed forward layers for the MEGA model from those of the Transformer model '
                         f'at {args.transfer_mega_nffn_frm_xfm_fc}')
     if args.freeze_trnsfrd_ffns:
         for name, param in model.named_parameters():
-            if 'nffn.fc1' in name or 'nffn.fc2' in name:
+            if 'nffn.fc1' in name or 'nffn.fc2' in name or 'embed_tokens' in name:
                 param.requires_grad = False
                 logger.info(f'froze parameter {name}')
 
