@@ -102,7 +102,12 @@ def main(args):
                 if 'nffn.fc1' in name or 'nffn.fc2' in name:
                     param.copy_(xfm_state['model'][name.replace('nffn.', '')])
                 elif 'embed_tokens' in name:
-                    param.copy_(xfm_state['model'][name])
+                    if param.size()[0] != xfm_state['model'][name].size()[0]:
+                        assert xfm_state['model'][name].size()[0] == 250027  # mbart, should remove embeddings corresponding to langs
+                        assert param.size()[0] == 250001
+                        param.copy_(xfm_state['model'][name][:param.size()[0]][:])
+                    else:
+                        param.copy_(xfm_state['model'][name])
             logger.info(f'loaded feed forward layers for the MEGA model from those of the Transformer model '
                         f'at {args.transfer_mega_nffn_frm_xfm_fc}')
     if args.freeze_trnsfrd_ffns:
