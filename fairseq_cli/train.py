@@ -86,7 +86,7 @@ def main(args):
 
     # MEGA nffn from XFM fc
     if getattr(args, "transfer_mega_nffn_frm_xfm_fc", None) is not None:
-        xfm_state = checkpoint_utils.load_checkpoint_to_cpu(args.transfer_mega_nffn_frm_xfm_fc)
+        xfm_state = torch.load(args.transfer_mega_nffn_frm_xfm_fc)
         xfm_ff_params = []
         mega_ff_params = []
         for n in xfm_state['model']:
