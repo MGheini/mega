@@ -39,7 +39,7 @@ def load_langpair_dataset(
     tgt, tgt_dict,
     combine, dataset_impl, upsample_primary,
     left_pad_source, left_pad_target, max_source_positions,
-    max_target_positions, source_chunk_size, target_chunk_size,
+    max_target_positions, source_chunk_size=-1, target_chunk_size=-1,
     prepend_bos=False, load_alignments=False,
     truncate_source=False, append_source_id=False,
     num_buckets=0,
