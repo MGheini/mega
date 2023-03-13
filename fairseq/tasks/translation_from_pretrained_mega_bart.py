@@ -13,7 +13,7 @@ from . import register_task
 
 
 @register_task('translation_from_pretrained_mega_bart')
-class TranslationFromPretrainedBARTTask(TranslationTask):
+class TranslationFromPretrainedMEGABARTTask(TranslationTask):
     """
     Translate from source language to target language with a model initialized with a multilingual pretrain.
 
