@@ -722,7 +722,7 @@ def base_architecture(args):
 
     args.activation_fn = getattr(args, 'activation_fn', 'silu')
     args.attention_activation_fn = getattr(args, 'attention_activation_fn', 'softmax')
-    args.truncation_length = getattr(args, 'truncation_length', 1024)
+    args.truncation_length = getattr(args, 'truncation_length', None)
     args.tie_adaptive_weights = getattr(args, "tie_adaptive_weights", False)
 
 
