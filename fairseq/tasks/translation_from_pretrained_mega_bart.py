@@ -60,6 +60,8 @@ class TranslationFromPretrainedMEGABARTTask(TranslationTask):
             for l in self.langs:
                 d.add_symbol('[{}]'.format(l))
             d.add_symbol('<mask>')
+        if args.unseen_lang:
+            d.add_symbol('[xx_XX]')
 
     def load_dataset(self, split, epoch=1, combine=False, **kwargs):
         """Load a given dataset split.
