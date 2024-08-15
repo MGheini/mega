@@ -660,6 +660,11 @@ def add_generation_args(parser):
 
     # special decoding format for advanced decoding.
     group.add_argument('--decoding-format', default=None, type=str, choices=['unigram', 'ensemble', 'vote', 'dp', 'bs'])
+
+    # if EMA was skipped during training or not
+    group.add_argument('--skip-ema', action='store_true', help="Match training conditions with respect to "
+                                                               "skipping the EMA layer")
+
     # fmt: on
     return group
 
@@ -709,4 +714,5 @@ def add_ema_ablation_args(parser):
     group.add_argument('--freeze-ema', action='store_true', help="Freeze the EMA layer during finetuning")
     group.add_argument('--skip-ema', action='store_true', help="Deactivate the EMA by skipping it and directly "
                                                                "passing the input to the single-head attention")
+    # fmt: on
     return group
