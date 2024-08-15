@@ -167,7 +167,8 @@ class SCRawEncoder(FairseqEncoder):
                 truncation=getattr(args, 'truncation_length', None),
                 rel_pos_bias=args.rel_pos_bias,
                 max_seq_len=args.max_positions,
-                sen_rep_type=getattr(args, 'sen_rep_type', 'mp')
+                sen_rep_type=getattr(args, 'sen_rep_type', 'mp'),
+                skip_ema=args.skip_ema,
             )
 
     def forward(self, src_tokens, src_lengths=None, **kwargs):

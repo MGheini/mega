@@ -27,6 +27,7 @@ def get_training_parser(default_task="translation"):
     add_optimization_args(parser)
     add_checkpoint_args(parser)
     add_init_mega_frm_xfm_args(parser)
+    add_ema_ablation_args(parser)
     return parser
 
 
@@ -700,4 +701,12 @@ def add_init_mega_frm_xfm_args(parser):
     group.add_argument('--freeze-trnsfrd-ffns', action='store_true', help="freeze MEGA's ffn and embeddings "
                                                                           "after loading from a XFM")
     # fmt: on
+    return group
+
+def add_ema_ablation_args(parser):
+    group = parser.add_argument_group("Experiments to ablate EMA, i.e., freezing and deactivating")
+    # fmt: off
+    group.add_argument('--freeze-ema', action='store_true', help="Freeze the EMA layer during finetuning")
+    group.add_argument('--skip-ema', action='store_true', help="Deactivate the EMA by skipping it and directly "
+                                                               "passing the input to the single-head attention")
     return group

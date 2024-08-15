@@ -49,6 +49,7 @@ class MegaEncoderLayer(nn.Module):
             norm_type=args.normalization_type,
             prenorm=args.normalize_before,
             feature_dropout=args.feature_dropout,
+            skip_ema=args.skip_ema,
         )
 
     def build_nffn_layer(self, embed_dim, args):
@@ -119,6 +120,7 @@ class MegaDecoderLayer(nn.Module):
             norm_type=args.normalization_type,
             prenorm=args.normalize_before,
             feature_dropout=args.feature_dropout,
+            skip_ema=args.skip_ema,
         )
 
     def build_cross_attn(self, embed_dim, args):

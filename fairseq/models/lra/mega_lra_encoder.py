@@ -72,6 +72,7 @@ class MegaLRAEncoder(nn.Module):
         export: bool = False,
         traceable: bool = False,
         sen_rep_type: str = 'cls',
+        skip_ema: bool = False,
     ) -> None:
 
         super().__init__()
@@ -119,7 +120,8 @@ class MegaLRAEncoder(nn.Module):
                 norm_type=norm_type,
                 prenorm=normalize_before,
                 feature_dropout=feature_dropout,
-                export=export
+                export=export,
+                skip_ema=skip_ema,
             )
             for _ in range(self.num_layers)
         ])
@@ -157,6 +159,7 @@ class MegaLRAEncoder(nn.Module):
         prenorm,
         feature_dropout,
         export,
+        skip_ema,
     ):
         return MegaSentenceEncoderLayer(
             embedding_dim=embedding_dim,
@@ -176,7 +179,8 @@ class MegaLRAEncoder(nn.Module):
             norm_type=norm_type,
             prenorm=prenorm,
             feature_dropout=feature_dropout,
-            export=export
+            export=export,
+            skip_ema=skip_ema,
         )
 
     def forward(

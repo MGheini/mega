@@ -115,6 +115,11 @@ def main(args):
             if 'nffn.fc1' in name or 'nffn.fc2' in name or 'embed_tokens' in name:
                 param.requires_grad = False
                 logger.info(f'froze parameter {name}')
+    if args.freeze_ema:
+        for name, param in model.named_parameters():
+            if 'mega_layer.move' in name:
+                param.requires_grad = False
+                logger.info(f'freezing parameter {name}')
 
     criterion = task.build_criterion(args)
     logger.info(model)

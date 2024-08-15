@@ -48,6 +48,7 @@ class MovingAverageGatedAttention(nn.Module):
         rel_pos_bias='simple',
         max_positions=1024,
         export=False,
+        skip_ema=False,
     ):
         super().__init__()
 
@@ -91,6 +92,8 @@ class MovingAverageGatedAttention(nn.Module):
 
         self.onnx_trace = False
         self.tpu = False
+
+        self.skip_ema = skip_ema
 
     def prepare_for_onnx_export_(self):
         self.onnx_trace = True
@@ -225,7 +228,10 @@ class MovingAverageGatedAttention(nn.Module):
         v = self.activation(self.v_proj(x))
 
         # L x B x D
-        mx = self.move(x, padding_mask, incremental_state)
+        if not self.skip_ema:
+            mx = self.move(x, padding_mask, incremental_state)
+        else:
+            mx = x
         mx = self.dropout(mx)
 
         # L x B x D -> L x B x (2*D+S+E)
