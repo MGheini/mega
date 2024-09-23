@@ -120,6 +120,11 @@ def main(args):
             if 'mega_layer.move' in name:
                 param.requires_grad = False
                 logger.info(f'freezing parameter {name}')
+    if args.freeze_self_attn:
+        for name, param in model.named_parameters():
+            if 'mega_layer.v_proj' in name or 'mega_layer.mx_proj' in name or 'mega_layer.h_proj' in name:
+                param.requires_grad = False
+                logger.info(f'freezing parameter {name}')
 
     criterion = task.build_criterion(args)
     logger.info(model)

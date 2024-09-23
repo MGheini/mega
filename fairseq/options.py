@@ -714,5 +714,7 @@ def add_ema_ablation_args(parser):
     group.add_argument('--freeze-ema', action='store_true', help="Freeze the EMA layer during finetuning")
     group.add_argument('--skip-ema', action='store_true', help="Deactivate the EMA by skipping it and directly "
                                                                "passing the input to the single-head attention")
+    group.add_argument('--freeze-self-attn', action='store_true', help="Freeze the self-attn layer in encoder "
+                                                                       "and decoder during finetuning")
     # fmt: on
     return group
